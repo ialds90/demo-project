@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Home = () => {
-  const [task, setTask] = useState;
+  const [task, setTask] = useState("");
 
   const addTask = () => {
     console.log(task);
