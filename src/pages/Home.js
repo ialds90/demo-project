@@ -2,9 +2,11 @@ import React, { useState } from "react";
 
 const Home = () => {
   const [task, setTask] = useState("");
+  const [list, setList] = useState([]);
 
   const addTask = () => {
-    console.log(task);
+    setList([...list, task]);
+    setTask("");
   };
 
   return (
@@ -16,6 +18,11 @@ const Home = () => {
         onChange={(e) => setTask(e.target.value)}
       />
       <button onClick={addTask}>Add Task</button>
+      <ul>
+        {list.map((list, index) => (
+          <li key={index}>{list}</li>
+        ))}
+      </ul>
     </div>
   );
 };
