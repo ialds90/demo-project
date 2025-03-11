@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from "react";
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  const [task, setTask] = useState;
 
-export default Home
+  const addTask = () => {
+    console.log(task);
+  };
+
+  return (
+    <div>
+      <h1>Todo App</h1>
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+      />
+      <button onClick={addTask}>Add Task</button>
+    </div>
+  );
+};
+
+export default Home;
