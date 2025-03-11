@@ -1,15 +1,18 @@
 import React, { createContext, useState } from "react";
 
+// Create a Context object to manage global state
 export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const [task, setTask] = useState([]);
+  // State to store the list of tasks, initialized as an empty array
+  const [task, setTasks] = useState([]);
 
   return (
-    <AppContext.Provider value={{ task, setTask }}>
-      {children}
+    // Provide the task state and setTask function to the component tree
+    <AppContext.Provider value={{ task, setTasks }}>
+      {children} {/* Render child components inside the provider */}
     </AppContext.Provider>
   );
 };
 
-export default AppProvider;
+export default AppProvider; // Export the provider for use in the application
