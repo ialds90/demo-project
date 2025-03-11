@@ -1,10 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
+
+import { getList, saveTodo } from "../services/todoService";
 
 const Home = () => {
   const { tasks, setTasks } = useContext(AppContext);
   const [task, setTask] = useState("");
   const [list, setList] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getList();
+      setList(res);
+      console.log(res);
+    };
+    getData();
+  }, []);
 
   const addTask = () => {
     setTasks([...tasks, task]);
