@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
 
 const Home = () => {
+  const { tasks, setTasks } = useContext(AppContext);
   const [task, setTask] = useState("");
   const [list, setList] = useState([]);
 
   const addTask = () => {
-    setList([...list, task]);
+    setTasks([...tasks, task]);
+
     setTask("");
   };
 
@@ -19,8 +22,8 @@ const Home = () => {
       />
       <button onClick={addTask}>Add Task</button>
       <ul>
-        {list.map((list, index) => (
-          <li key={index}>{list}</li>
+        {tasks.map((tasks, index) => (
+          <li key={index}>{tasks}</li>
         ))}
       </ul>
     </div>

@@ -5,11 +5,11 @@ export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   // State to store the list of tasks, initialized as an empty array
-  const [task, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   return (
     // Provide the task state and setTask function to the component tree
-    <AppContext.Provider value={{ task, setTasks }}>
+    <AppContext.Provider value={{ tasks, setTasks }}>
       {children} {/* Render child components inside the provider */}
     </AppContext.Provider>
   );
