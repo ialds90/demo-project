@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -18,8 +18,7 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
+  );
+};
 
-  )
-}
-
-export default App
+export default App;
