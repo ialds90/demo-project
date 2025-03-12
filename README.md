@@ -13,3 +13,8 @@
 ## To run the application
 
     npm start
+
+## To install tailwindcss
+
+    npm install -D tailwindcss@3
+    npx tailwindcss init
