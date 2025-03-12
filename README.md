@@ -18,3 +18,22 @@
 
     npm install -D tailwindcss@3
     npx tailwindcss init
+
+# change the tailwind.config.js
+
+    /** @type {import('tailwindcss').Config} */
+    module.exports = {
+    content: [
+        "./src/**/*.{js,jsx,ts,tsx}",
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+    }
+
+# Add @tailwind directives to /src/index.css
+
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
