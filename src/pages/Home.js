@@ -2,6 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext"; // Import global state management context
 import { getList, saveTodo } from "../services/todoService"; //Import functions for fetching and saving todos
 
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
 const Home = () => {
   // Access the global tasks state and its updater function from context
   const { tasks, setTasks } = useContext(AppContext);
@@ -30,26 +36,36 @@ const Home = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-slate-100">
-      <h1 className="text-3xl font-bold underline pb-5">Todo App</h1>
-      <input
-        className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-offset-2 focus-within:outline-indigo-600"
-        type="text"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-      />
-      <button
-        className="block px-4 py-2 mt-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-        onClick={addTask}
-      >
-        Add Task
-      </button>
-      <ul>
-        {tasks.map((tasks, index) => (
-          <li key={index}>{tasks}</li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Container>
+        <Row>
+          <Col>
+            <div className="container mx-auto p-4 bg-slate-100">
+              <h1 className="text-3xl font-bold underline pb-5">Todo App</h1>
+
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Add To Do</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter To Do"
+                  value={task}
+                  onChange={(e) => setTask(e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="primary" onClick={addTask}>
+                Add Task
+              </Button>
+
+              <ul>
+                {tasks.map((tasks, index) => (
+                  <li key={index}>{tasks}</li>
+                ))}
+              </ul>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 
