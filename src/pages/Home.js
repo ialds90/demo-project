@@ -38,6 +38,7 @@ const Home = () => {
       try {
         const data = await getList(); // Fetch tasks from API
         setList(data); // Set tasks to state
+        setTasks(data); // Set global context for tasks
         setLoad(false);
       } catch (error) {
         console.error("Error getting data:", error);

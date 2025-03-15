@@ -37,3 +37,11 @@
     @tailwind base;
     @tailwind components;
     @tailwind utilities;
+
+# Install React Bootstrap
+
+    npm install react-bootstrap bootstrap
+
+# in the src\index.js
+
+    import "bootstrap/dist/css/bootstrap.min.css";
