@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider} from 'react-redux';
+import store from './store/store';
 import "./index.css"; // Import global CSS styles
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -11,12 +13,12 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   // Wrap the app with AppProvider to provide global state
-  <AppProvider>
+  <Provider store={store}> 
     {/* React.StrictMode helps identify potential problems in development mode */}
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </AppProvider>
+  </Provider>
 );
 
 // Run performance monitoring function (optional, can be used to track app performance)

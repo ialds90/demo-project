@@ -1,7 +1,7 @@
-import React from "react"; 
+import React from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes"; // Import the route definitions
-import Navigation from "./components/Navigation"
+import Navigation from "./components/Navigation";
 
 const App = () => {
   return (

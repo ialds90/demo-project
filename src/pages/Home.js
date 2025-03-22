@@ -1,5 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import { AppContext } from "../context/AppContext"; // Import global context for state management
+
+import { useSelector, useDispatch } from 'react-redux';
+import { addTodo, removeTodo } from "../store/todoSlice";
+
+//import { AppContext } from "../context/AppContext"; // Import global context for state management
 
 import {
   getList,
@@ -21,7 +25,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 const Home = () => {
   // Access global context for tasks
-  const { tasks, setTasks } = useContext(AppContext);
+  //const { tasks, setTasks } = useContext(AppContext);
 
   // Local state variables
   const [task, setTask] = useState(""); // Holds the current task input
@@ -31,6 +35,9 @@ const Home = () => {
   const [btnText, setBtnText] = useState("Add Task"); // Button text toggles between "Add Task" & "Update Task"
   const [isEdit, setIsEdit] = useState(false); // Flag to check if edit mode is active
 
+  const todo = useSelector(state => state.todo);
+  const dispatch = useDispatch();
+
   // Fetch task list when component mounts
   useEffect(() => {
     setLoad(true);
@@ -38,8 +45,7 @@ const Home = () => {
       try {
         const data = await getList(); // Fetch tasks from API
         setList(data); // Set tasks to state
-        setTasks(data); // Set global context for tasks
-        setLoad(false);
+        setLoad(false); // Set loading to false
       } catch (error) {
         console.error("Error getting data:", error);
         setList([]);
@@ -52,6 +58,9 @@ const Home = () => {
   const addTask = async () => {
     if (!task.trim()) return; // Prevent empty tasks
     const obj = { title: task, completed: false, userId: 5 }; // Create task object
+
+    dispatch(addTodo(obj));
+
     try {
       if (isEdit) {
         // If in edit mode, update the existing task
