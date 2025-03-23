@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom"; // Import routing components f
 import Home from "../pages/Home";
 import About from "../pages/About";
 import NotFound from "../pages/NotFound";
+import Users from "../pages/Users";
 
 const AppRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const AppRoutes = () => {
       {/* Define routes for the pages */}
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path="/users" element={<Users />} />
 
       {/* Catch-all route for undefined paths, rendering the NotFound page */}
       <Route path="*" element={<NotFound />} />
