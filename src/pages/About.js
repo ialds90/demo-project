@@ -27,7 +27,14 @@ const About = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {(todo || []).map((tsk) => (
+                  {(todo || []).slice().sort((a, b) => {
+                      if (b.id - a.id !== 0) {
+                        return b.id - a.id; // Sort by ID in descending order (higher IDs first)
+                      }
+                      const aCreatedAt = a.createdAt || "0";
+                      const bCreatedAt = b.createdAt || "0";
+                      return bCreatedAt.localeCompare(aCreatedAt);
+                    }).map((tsk) => (
                     <tr key={tsk.renderKey}>
                       <td>{tsk.id}</td>
                       <td>{tsk.title}</td>
