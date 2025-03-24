@@ -72,16 +72,23 @@ const Home = () => {
     try {
       if (isEdit) {
         // If in edit mode, update the existing task
-        const updatedTask = await updateTodos(editId, obj); // Send update request to API with editId
-        if (updatedTask && updatedTask.id) {
-          // Check if the response is valid
-          // Dispatch action to update the todo in Redux store, preserving renderKey
-          dispatch(updateTodo({ ...updatedTask, renderKey: editRenderKey }));
-          setIsEdit(false); // Exit edit mode
-          setBtnText("Add Task"); // Reset button text to "Add Task"
-          setEditId(""); // Clear the edit ID
-          setEditRenderKey(""); // Clear the edit renderKey
+        console.log("editRenderKey: ", editRenderKey);
+        console.log("editId: ", editId);
+        console.log("obj: ", obj);
+        if (editId === 201) { //Check if the updating task is local or API generated 
+          dispatch(updateTodo({ ...obj, renderKey: editRenderKey }));
+        } else {
+          const updatedTask = await updateTodos(editId, obj); // Send update request to API with editId
+          if (updatedTask && updatedTask.id) {
+            // Check if the response is valid
+            // Dispatch action to update the todo in Redux store, preserving renderKey
+            dispatch(updateTodo({ ...updatedTask, renderKey: editRenderKey }));
+          }
         }
+        setIsEdit(false); // Exit edit mode
+        setBtnText("Add Task"); // Reset button text to "Add Task"
+        setEditId(""); // Clear the edit ID
+        setEditRenderKey(""); // Clear the edit renderKey
       } else {
         // If not in edit mode, add a new task
         const renderKey = uuidv4(); // Generate a unique renderKey for the new todo
@@ -95,7 +102,7 @@ const Home = () => {
         if (newTask && newTask.id) {
           // Check if the response is valid
           dispatch(addTodo(newTask)); // Add the new todo to Redux store with API-assigned ID
-          console.log("New Task Added: ", newTask); // Log the new task for debugging
+          //console.log("New Task Added: ", newTask); // Log the new task for debugging
         }
       }
     } catch (error) {
@@ -179,14 +186,14 @@ const Home = () => {
                 </thead>
                 <tbody>
                   {/* Render todos from Redux store, sorted by ID and createdAt */}
-                  {(todo || [])// Fallback to empty array if todo is undefined
-                    .slice()// Create a copy to avoid mutating the original array
+                  {(todo || []) // Fallback to empty array if todo is undefined
+                    .slice() // Create a copy to avoid mutating the original array
                     .sort((a, b) => {
                       if (b.id - a.id !== 0) {
-                        return b.id - a.id;// Sort by ID in descending order (higher IDs first)
+                        return b.id - a.id; // Sort by ID in descending order (higher IDs first)
                       }
-                      const aCreatedAt = a.createdAt || "0";// Default to "0" if createdAt is missing
-                      const bCreatedAt = b.createdAt || "0";// Default to "0" if createdAt is missing
+                      const aCreatedAt = a.createdAt || "0"; // Default to "0" if createdAt is missing
+                      const bCreatedAt = b.createdAt || "0"; // Default to "0" if createdAt is missing
                       // Sort by createdAt in descending order for todos with same ID
                       return bCreatedAt.localeCompare(aCreatedAt);
                     })
@@ -206,14 +213,16 @@ const Home = () => {
                               onClick={() =>
                                 editTask(tsk.renderKey, tsk.id, tsk.title)
                               }
-                            >Edit
+                            >
+                              Edit
                             </Button>
                             {/* Delete button to trigger deleteTask */}
                             <Button
                               variant="danger"
                               size="sm"
                               onClick={() => deleteTask(tsk.renderKey, tsk.id)}
-                            >Delete
+                            >
+                              Delete
                             </Button>
                           </ButtonGroup>
                         </td>
