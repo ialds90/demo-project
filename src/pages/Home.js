@@ -12,28 +12,28 @@ import { v4 as uuidv4 } from "uuid";
 
 // Import CRUD API functions from todoService
 import {
-  getList,       // Fetches the list of todos from the API
-  saveTodo,      // Saves a new todo to the API
-  updateTodos,   // Updates an existing todo via the API
-  deleteTodo,    // Deletes a todo from the API
+  getList, // Fetches the list of todos from the API
+  saveTodo, // Saves a new todo to the API
+  updateTodos, // Updates an existing todo via the API
+  deleteTodo, // Deletes a todo from the API
 } from "../services/todoService";
 
 // Import Bootstrap components for styling and layout
-import Container from "react-bootstrap/Container";      // Main wrapper for content
-import Row from "react-bootstrap/Row";                  // Grid row for layout
-import Col from "react-bootstrap/Col";                  // Grid column for layout
-import Form from "react-bootstrap/Form";                // Form component for input
-import Button from "react-bootstrap/Button";            // Button component
-import Table from "react-bootstrap/Table";              // Table for displaying todos
-import InputGroup from "react-bootstrap/InputGroup";    // Input group for form styling
-import ButtonGroup from "react-bootstrap/ButtonGroup";  // Group for action buttons
-import Spinner from "react-bootstrap/Spinner";          // Loading spinner
+import Container from "react-bootstrap/Container"; // Main wrapper for content
+import Row from "react-bootstrap/Row"; // Grid row for layout
+import Col from "react-bootstrap/Col"; // Grid column for layout
+import Form from "react-bootstrap/Form"; // Form component for input
+import Button from "react-bootstrap/Button"; // Button component
+import Table from "react-bootstrap/Table"; // Table for displaying todos
+import InputGroup from "react-bootstrap/InputGroup"; // Input group for form styling
+import ButtonGroup from "react-bootstrap/ButtonGroup"; // Group for action buttons
+import Spinner from "react-bootstrap/Spinner"; // Loading spinner
 
 // Define the Home component
 const Home = () => {
   // Local state variables using the useState hook
   const [task, setTask] = useState(""); // Holds the current input value for a new or edited task
-  const [list, setList] = useState([]); // Unused local state for todos (kept for compatibility)
+  const [list, setList] = useState([]); // Local state for todos
   const [load, setLoad] = useState(false); // Boolean to show/hide loading spinner during API calls
   const [editId, setEditId] = useState(""); // Stores the ID of the todo being edited
   const [btnText, setBtnText] = useState("Add Task"); // Toggles button text between "Add Task" and "Update Task"
@@ -73,8 +73,8 @@ const Home = () => {
       if (isEdit) {
         // If in edit mode, update the existing task
         const updatedTask = await updateTodos(editId, obj); // Send update request to API with editId
-        console.log(updatedTask); // Log the API response for debugging
-        if (updatedTask && updatedTask.id) { // Check if the response is valid
+        if (updatedTask && updatedTask.id) {
+          // Check if the response is valid
           // Dispatch action to update the todo in Redux store, preserving renderKey
           dispatch(updateTodo({ ...updatedTask, renderKey: editRenderKey }));
           setIsEdit(false); // Exit edit mode
@@ -92,8 +92,10 @@ const Home = () => {
           renderKey,
         };
         const newTask = await saveTodo(newObj); // Send new todo to API
-        if (newTask && newTask.id) { // Check if the response is valid
+        if (newTask && newTask.id) {
+          // Check if the response is valid
           dispatch(addTodo(newTask)); // Add the new todo to Redux store with API-assigned ID
+          console.log("New Task Added: ", newTask); // Log the new task for debugging
         }
       }
     } catch (error) {
@@ -128,7 +130,8 @@ const Home = () => {
       {load ? (
         <Row>
           <Col>
-            <Spinner animation="border" variant="info" /> {/* Loading indicator */}
+            <Spinner animation="border" variant="info" />
+            {/* Loading indicator */}
           </Col>
         </Row>
       ) : (
@@ -155,45 +158,47 @@ const Home = () => {
                     />
                     {/* Button to add or update the task */}
                     <Button variant="primary" onClick={addTask}>
-                      {btnText} {/* Dynamically shows "Add Task" or "Update Task" */}
+                      {btnText}
+                      {/* Dynamically shows "Add Task" or "Update Task" */}
                     </Button>
                   </InputGroup>
                 </Form.Group>
               </Form>
             </Col>
           </Row>
-          {/* Table row to display todos */}
           <Row>
             <Col>
-              <Table striped bordered hover> {/* Styled table for todos */}
+              <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>ID</th> {/* Column for todo ID */}
-                    <th>Title</th> {/* Column for todo title */}
-                    <th>User ID</th> {/* Column for user ID */}
-                    <th>Action</th> {/* Column for edit/delete buttons */}
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>User ID</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {/* Render todos from Redux store, sorted by ID and createdAt */}
-                  {(todo || []) // Fallback to empty array if todo is undefined
-                    .slice() // Create a copy to avoid mutating the original array
+                  {(todo || [])// Fallback to empty array if todo is undefined
+                    .slice()// Create a copy to avoid mutating the original array
                     .sort((a, b) => {
                       if (b.id - a.id !== 0) {
-                        return b.id - a.id; // Sort by ID in descending order (higher IDs first)
+                        return b.id - a.id;// Sort by ID in descending order (higher IDs first)
                       }
-                      const aCreatedAt = a.createdAt || "0"; // Default to "0" if createdAt is missing
-                      const bCreatedAt = b.createdAt || "0"; // Default to "0" if createdAt is missing
+                      const aCreatedAt = a.createdAt || "0";// Default to "0" if createdAt is missing
+                      const bCreatedAt = b.createdAt || "0";// Default to "0" if createdAt is missing
                       // Sort by createdAt in descending order for todos with same ID
                       return bCreatedAt.localeCompare(aCreatedAt);
                     })
                     .map((tsk) => (
-                      <tr key={tsk.renderKey}> {/* Unique key for each row using renderKey */}
-                        <td>{tsk.id}</td> {/* Display todo ID */}
-                        <td>{tsk.title}</td> {/* Display todo title */}
-                        <td>{tsk.userId}</td> {/* Display user ID */}
+                      <tr key={tsk.renderKey}>
+                        {/* Unique key for each row using renderKey */}
+                        <td>{tsk.id}</td>
+                        <td>{tsk.title}</td>
+                        <td>{tsk.userId}</td>
                         <td>
-                          <ButtonGroup> {/* Group for action buttons */}
+                          <ButtonGroup>
+                            {/* Group for action buttons */}
                             {/* Edit button to trigger editTask */}
                             <Button
                               variant="warning"
@@ -201,16 +206,14 @@ const Home = () => {
                               onClick={() =>
                                 editTask(tsk.renderKey, tsk.id, tsk.title)
                               }
-                            >
-                              Edit
+                            >Edit
                             </Button>
                             {/* Delete button to trigger deleteTask */}
                             <Button
                               variant="danger"
                               size="sm"
                               onClick={() => deleteTask(tsk.renderKey, tsk.id)}
-                            >
-                              Delete
+                            >Delete
                             </Button>
                           </ButtonGroup>
                         </td>
